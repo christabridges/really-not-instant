@@ -1,0 +1,6 @@
+@ReallyNotInstantService_HostAddress = http://localhost:5062
+
+GET {{ReallyNotInstantService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
