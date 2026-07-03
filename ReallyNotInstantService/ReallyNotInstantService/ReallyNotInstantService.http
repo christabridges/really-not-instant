@@ -1,7 +1,15 @@
 @ReallyNotInstantService_HostAddress = http://localhost:5062
 
-PUT {{ReallyNotInstantService_HostAddress}}/message/
-
+PUT {{ReallyNotInstantService_HostAddress}}/sendmessage
 Accept: application/json
+"hello world"
+
+###
+POST {{ReallyNotInstantService_HostAddress}}/getmessagestatus
+Accept: application/json
+[
+  "8181EB1B-E396-4C88-BDEE-66F2F2EF9198"
+]
+
 
 ###
