@@ -3,6 +3,20 @@ using Microsoft.AspNetCore.Mvc;
 namespace ReallyNotInstantService.Controllers {
     [ApiController]
     [Route("[controller]")]
+    public class MessageController : ControllerBase {
+        private static readonly List<string> Messages = [];
+        private List<string> NonStaticMessages = [];
+
+        [HttpPut(Name = "SendMessage")]
+        public IActionResult SendMessage([FromBody] string message) {
+            Messages.Add(message);
+            this.NonStaticMessages.Add(message);
+            return Ok();
+        }
+    }
+
+    [ApiController]
+    [Route("[controller]")]
     public class WeatherForecastController : ControllerBase {
         private static readonly string[] Summaries =
         [
