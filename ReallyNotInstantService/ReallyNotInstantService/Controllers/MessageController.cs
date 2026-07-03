@@ -9,8 +9,8 @@ namespace ReallyNotInstantService.Controllers {
         private static Guid senderId = Guid.NewGuid();
         private static Guid recipientId = Guid.NewGuid();
 
-        [HttpPut(Name = "SendMessage")]
-        public IActionResult SendMessage([FromBody] string messageContent) {
+        [HttpPut(Name = "Send")]
+        public IActionResult Send([FromBody] string messageContent) {
             var message = new Message {
                 Id = Guid.NewGuid(),
                 SenderId = senderId,
