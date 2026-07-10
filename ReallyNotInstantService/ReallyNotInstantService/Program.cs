@@ -26,7 +26,7 @@ var messages = new List<Message>();
 var senderId = Guid.NewGuid();
 var recipientId = Guid.NewGuid();
 
-app.MapPut("/sendmessage", ([FromBody] string messageContent) => {
+app.MapPut("/sendmessage", Results<Ok<Message>, BadRequest<string>>([FromBody] string messageContent) => {
     var message = new Message {
         Id = Guid.NewGuid(),
         SenderId = senderId,
@@ -37,6 +37,8 @@ app.MapPut("/sendmessage", ([FromBody] string messageContent) => {
     };
 
     messages.Add(message);
+
+    return TypedResults.Ok(message);
 });
 
 app.MapPost("/getmessagestatus", Results<Ok<string>, NotFound>([FromBody] string messageId) => {
