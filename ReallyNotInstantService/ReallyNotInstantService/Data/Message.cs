@@ -6,6 +6,7 @@ namespace ReallyNotInstantService.Data {
         public required DateTime SentAtUtc { get; init; }
         public required string MessageContent { get; init; }
         public required string Status { get; init; }
+        public DateTime? PlannedDeliveryTimeUtc { get; init; }
     }
 
     public static class MessageStatusStrings { 
