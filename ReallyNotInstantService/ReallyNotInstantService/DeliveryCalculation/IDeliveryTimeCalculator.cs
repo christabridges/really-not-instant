@@ -1,3 +1,3 @@
 ﻿public interface IDeliveryTimeCalculator {
-    Task<DateTime?> Calculate(string senderLocation, string recipientLocation, DateTime sentAtUtc);
+    Task<DateTime?> Calculate(Location senderLocation, Location recipientLocation, DateTime sentAtUtc);
 }

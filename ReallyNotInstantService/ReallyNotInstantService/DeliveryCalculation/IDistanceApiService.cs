@@ -1,3 +1,3 @@
 public interface IDistanceApiService {
-    Task<double?> GetDeliveryTimeInSecondsAsync();
+    Task<double?> GetDeliveryTimeInSecondsAsync(Location senderLocation, Location recipientLocation);
 }

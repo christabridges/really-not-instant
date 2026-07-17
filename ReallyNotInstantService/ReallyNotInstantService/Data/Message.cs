@@ -1,5 +1,5 @@
 namespace ReallyNotInstantService.Data {
-    public record Message {
+    public class Message {
         public required Guid Id { get; init; }
         public required Guid SenderId { get; init; }
         public required Guid RecipientId { get; init; }

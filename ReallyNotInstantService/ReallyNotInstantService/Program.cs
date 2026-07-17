@@ -38,16 +38,16 @@ app.UseAuthorization();
 
 
 var messages = new List<Message>();
-var senderId = Guid.NewGuid();
-var recipientId = Guid.NewGuid();
+var sender = new User("Rose", "Tyler", new Location(Latitude: 50.06239683723494, Longitude: -5.715337270597832));
+var recipient = new User("Donna", "Noble", new Location(Latitude: 58.638020261565, Longitude: -3.0689931908863137));
 
 app.MapPut("/sendmessage", Results<Ok<Message>, BadRequest<string>>([FromBody] string messageContent, IDeliveryTimeCalculator deliveryTimeCalculator) => {
     var sentAtUtc = DateTime.UtcNow;
-    var time = deliveryTimeCalculator.Calculate("SenderLocation", "RecipientLocation", sentAtUtc).Result;
+    var time = deliveryTimeCalculator.Calculate(sender.PostboxLocation, recipient.PostboxLocation, sentAtUtc).Result;
     var message = new Message {
         Id = Guid.NewGuid(),
-        SenderId = senderId,
-        RecipientId = recipientId,
+        SenderId = sender.Id,
+        RecipientId = recipient.Id,
         MessageContent = messageContent,
         SentAtUtc = sentAtUtc,
         Status = MessageStatusStrings.Sent,
@@ -72,3 +72,18 @@ app.MapPost("/getmessagestatus", Results<Ok<string>, NotFound>([FromBody] string
 app.MapControllers();
 
 app.Run();
+
+public class User {
+    public readonly Guid Id = Guid.NewGuid();
+    public string Forename; 
+    public string Surname;
+    public Location PostboxLocation;
+
+    public User(string forename, string surname, Location postboxLocation) {
+        Forename = forename;
+        Surname = surname;
+        PostboxLocation = postboxLocation;
+    }
+}
+
+public record Location(double Latitude, double Longitude);

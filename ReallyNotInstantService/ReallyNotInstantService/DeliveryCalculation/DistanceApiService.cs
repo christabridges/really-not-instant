@@ -9,9 +9,9 @@ public class DistanceApiService : IDistanceApiService {
         this.httpClient = httpClient;
     }
 
-    public async Task<double?> GetDeliveryTimeInSecondsAsync() {
+    public async Task<double?> GetDeliveryTimeInSecondsAsync(Location senderLocation, Location recipientLocation) {
         try {
-            var content = new StringContent("{\"locations\":[[-5.712958280796678,50.06636557915666],[-3.0689454876896156,58.637320785965066]]}", new MediaTypeWithQualityHeaderValue("application/json"));
+            var content = new StringContent($"{{\"locations\":[[{senderLocation.Longitude}, {senderLocation.Latitude}],[{recipientLocation.Longitude}, {recipientLocation.Latitude}]]}}", new MediaTypeWithQualityHeaderValue("application/json"));
             var response = await this.httpClient.PostAsync(this.MatrixFootWalkingUri, content);
 
             var responseData = await response.Content.ReadAsStringAsync();

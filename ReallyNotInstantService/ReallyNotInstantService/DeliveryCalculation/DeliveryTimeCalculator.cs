@@ -5,8 +5,8 @@ public class DeliveryTimeCalculator : IDeliveryTimeCalculator {
         this.distanceApiService = apiService;
     }
 
-    public async Task<DateTime?> Calculate(string senderLocation, string recipientLocation, DateTime sentAtUtc) {
-        var deliveryTimeInSeconds = await this.distanceApiService.GetDeliveryTimeInSecondsAsync();
+    public async Task<DateTime?> Calculate(Location senderLocation, Location recipientLocation, DateTime sentAtUtc) {
+        var deliveryTimeInSeconds = await this.distanceApiService.GetDeliveryTimeInSecondsAsync(senderLocation, recipientLocation);
 
         if (deliveryTimeInSeconds == null) {
             return null;
