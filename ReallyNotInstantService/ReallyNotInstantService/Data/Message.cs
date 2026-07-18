@@ -1,11 +1,12 @@
 namespace ReallyNotInstantService.Data {
-    public record Message {
+    public class Message {
         public required Guid Id { get; init; }
         public required Guid SenderId { get; init; }
         public required Guid RecipientId { get; init; }
         public required DateTime SentAtUtc { get; init; }
         public required string MessageContent { get; init; }
         public required string Status { get; init; }
+        public DateTime? PlannedDeliveryTimeUtc { get; init; }
     }
 
     public static class MessageStatusStrings { 
