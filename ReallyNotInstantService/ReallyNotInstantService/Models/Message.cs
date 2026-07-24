@@ -1,4 +1,4 @@
-namespace ReallyNotInstantService.Data {
+namespace ReallyNotInstantService.Models {
     public class Message {
         public required Guid Id { get; init; }
         public required Guid SenderId { get; init; }
