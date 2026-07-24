@@ -1,6 +1,6 @@
 ﻿using FluentMigrator;
 
-namespace ReallyNotInstantService.Migrations {
+namespace ReallyNotInstantService.Data.Migrations {
     [Migration(202607191447)]
     public class AddMessagesTable : Migration {
         public override void Down() {

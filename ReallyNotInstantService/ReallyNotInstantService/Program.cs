@@ -1,7 +1,7 @@
 using FluentMigrator.Runner;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using ReallyNotInstantService.Migrations;
+using ReallyNotInstantService.Data.Migrations;
 using ReallyNotInstantService.Models;
 using System.Net.Http.Headers;
 
