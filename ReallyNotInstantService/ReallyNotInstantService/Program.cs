@@ -15,7 +15,7 @@ builder.Services.AddScoped(sp => {
     httpClient.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8");
     httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json; charset=utf-8");
     httpClient.DefaultRequestHeaders.Authorization =
-        new AuthenticationHeaderValue("Bearer", builder.Configuration["OPENROUTESERVICEKEY"]);
+        new AuthenticationHeaderValue("Bearer", builder.Configuration["OPEN_ROUTE_SERVICE_KEY"]);
     return httpClient;
 });
 

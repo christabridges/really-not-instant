@@ -3,7 +3,7 @@ services:
     image: ${DOCKER_REGISTRY-}reallynotinstantservice
     environment:
       - ConnectionStrings__DefaultConnection=${POSTGRES_CONNECTION_STRING}
-      - OpenRouteServiceKey=${OPENROUTESERVICEKEY}
+      - OPEN_ROUTE_SERVICE_KEY=${OPEN_ROUTE_SERVICE_KEY}
     build:
       context: .
       dockerfile: ReallyNotInstantService/Dockerfile
