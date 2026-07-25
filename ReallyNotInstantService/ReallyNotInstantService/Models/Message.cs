@@ -1,12 +1,12 @@
 namespace ReallyNotInstantService.Models {
     public class Message {
-        public required Guid Id { get; init; }
-        public required Guid SenderId { get; init; }
-        public required Guid RecipientId { get; init; }
-        public required DateTime SentAtUtc { get; init; }
-        public required string MessageContent { get; init; }
-        public required string Status { get; init; }
-        public DateTime? PlannedDeliveryTimeUtc { get; init; }
+        public virtual Guid Id { get; set; }
+        public virtual Guid SenderId { get; set; }
+        public virtual Guid RecipientId { get; set; }
+        public virtual DateTime SentAtUtc { get; set; }
+        public virtual string MessageContent { get; set; }
+        public virtual string Status { get; set; }
+        public virtual DateTime? PlannedDeliveryTimeUtc { get; set; }
     }
 
     public static class MessageStatusStrings { 
