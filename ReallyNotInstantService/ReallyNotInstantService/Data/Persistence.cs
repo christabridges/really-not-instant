@@ -10,6 +10,10 @@ namespace ReallyNotInstantService.Data {
             this.session = session;
         }
 
+        public T Read(Guid id) {
+            return this.session.Get<T>(id);
+        }
+
         public void Save(T entity) {
             this.session.Save(entity);
             this.session.Flush();

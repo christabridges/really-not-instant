@@ -90,14 +90,21 @@ app.MapPut("/sendmessage", Results<Ok<Message>, BadRequest<string>>([FromBody] s
         PlannedDeliveryTimeUtc = time
     };
 
-    //messages.Add(message);
     messagesPersistence.Save(message);
 
     return TypedResults.Ok(message);
 });
 
-app.MapPost("/getmessagestatus", Results<Ok<string>, NotFound>([FromBody] string messageId) => {
-    var message = messages.FirstOrDefault(m => m.Id.ToString() == messageId);
+app.MapPost("/getmessagestatus", Results<Ok<string>, NotFound, BadRequest<string>>([FromBody] string messageId, IPersistence<Message> messagesPersistence) => {
+    if (string.IsNullOrWhiteSpace(messageId)) {
+        return TypedResults.BadRequest("Message ID is required.");
+    }
+
+    if (!Guid.TryParse(messageId, out Guid messageGuid)) {
+        return TypedResults.BadRequest("Invalid Message ID format.");
+    }
+
+    var message = messagesPersistence.Read(messageGuid);
 
     if (message == null) {
         return TypedResults.NotFound();
