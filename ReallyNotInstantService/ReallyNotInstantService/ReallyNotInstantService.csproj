@@ -27,10 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="API\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

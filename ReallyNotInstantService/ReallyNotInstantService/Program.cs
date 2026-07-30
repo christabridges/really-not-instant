@@ -1,13 +1,10 @@
 using FluentMigrator.Runner;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Dialect;
 using NHibernate.Driver;
 using ReallyNotInstantService.Data;
 using ReallyNotInstantService.Data.Migrations;
-using ReallyNotInstantService.Models;
+using ReallyNotInstantService.Endpoints;
 using System.Net.Http.Headers;
 using System.Reflection;
 
@@ -71,51 +68,8 @@ if (app.Environment.IsDevelopment()) {
 }
 
 app.UseHttpsRedirection();
-
-// Endpoints
-var messages = new List<Message>();
-var sender = new User("Rose", "Tyler", new Location(Latitude: 50.06239683723494, Longitude: -5.715337270597832));
-var recipient = new User("Donna", "Noble", new Location(Latitude: 58.638020261565, Longitude: -3.0689931908863137));
-
-app.MapPut("/sendmessage", Results<Ok<Message>, BadRequest<string>>([FromBody] string messageContent, IDeliveryTimeCalculator deliveryTimeCalculator, IPersistence<Message> messagesPersistence) => {
-    var sentAtUtc = DateTime.UtcNow;
-    var time = deliveryTimeCalculator.Calculate(sender.PostboxLocation, recipient.PostboxLocation, sentAtUtc).Result;
-    var message = new Message {
-        Id = Guid.NewGuid(),
-        SenderId = sender.Id,
-        RecipientId = recipient.Id,
-        MessageContent = messageContent,
-        SentAtUtc = sentAtUtc,
-        Status = MessageStatusStrings.Sent,
-        PlannedDeliveryTimeUtc = time
-    };
-
-    messagesPersistence.Save(message);
-
-    return TypedResults.Ok(message);
-});
-
-app.MapPost("/getmessagestatus", Results<Ok<string>, NotFound, BadRequest<string>>([FromBody] string messageId, IPersistence<Message> messagesPersistence) => {
-    if (string.IsNullOrWhiteSpace(messageId)) {
-        return TypedResults.BadRequest("Message ID is required.");
-    }
-
-    if (!Guid.TryParse(messageId, out Guid messageGuid)) {
-        return TypedResults.BadRequest("Invalid Message ID format.");
-    }
-
-    var message = messagesPersistence.Read(messageGuid);
-
-    if (message == null) {
-        return TypedResults.NotFound();
-    }
-
-    return TypedResults.Ok(message.Status);
-});
-
-
 app.UseAuthorization();
-
+app.MapMessageEndpoints();
 app.MapControllers();
 
 app.Run();
