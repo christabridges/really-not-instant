@@ -10,24 +10,16 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-
 var rawConfig = new Configuration();
 var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
 rawConfig.SetNamingStrategy(new PostgresNamingStrategy());
 
-var serviceProvider = builder.Services.AddFluentMigratorCore()
+builder.Services.AddFluentMigratorCore()
     .ConfigureRunner(rb => rb
         .AddPostgres()
         .WithGlobalConnectionString(connectionString)
         .ScanIn(typeof(AddMessagesTable).Assembly).For.Migrations())
-    .AddLogging(lb => lb.AddFluentMigratorConsole())
-    .BuildServiceProvider();
-
-using (var scope = serviceProvider.CreateScope()) {
-    var runner = serviceProvider.GetRequiredService<IMigrationRunner>();
-    runner.MigrateUp();
-}
+    .AddLogging(lb => lb.AddFluentMigratorConsole());
 
 rawConfig.DataBaseIntegration(db => {
     db.ConnectionString = connectionString;
@@ -39,6 +31,7 @@ rawConfig.AddAssembly(Assembly.GetExecutingAssembly());
 var sessionFactory = rawConfig.BuildSessionFactory();
 builder.Services.AddSingleton(sessionFactory);
 builder.Services.AddSingleton(_ => sessionFactory.OpenSession());
+
 // Add services to the container.
 builder.Services.AddScoped(sp => {
     var httpClient = new HttpClient { BaseAddress = new Uri("https://api.openrouteservice.org") };
@@ -60,7 +53,10 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+
 var app = builder.Build();
+var migrator = app.Services.GetRequiredService<IMigrationRunner>();
+migrator.MigrateUp();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment()) {
