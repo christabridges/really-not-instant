@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+    namespace="ReallyNotInstantService.Models" assembly="ReallyNotInstantService">
+
+	<class name="Message" table="Messages">
+		<id name="Id">
+			<column name="Id" sql-type="uniqueidentifier" not-null="true"/>
+			<generator class="guid" />
+		</id>
+
+		<property name="SenderId" type="Guid"/>
+		<property name="RecipientId" type="Guid"/>
+		<property name="SentAtUtc" type="DateTime"/>
+		<property name="MessageContent" type="String"/>
+		<property name="Status" type="String"/>
+		<property name="PlannedDeliveryTimeUtc" type="DateTime"/>
+	</class>
+
+</hibernate-mapping>
