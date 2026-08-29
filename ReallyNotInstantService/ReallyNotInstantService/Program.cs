@@ -1,4 +1,5 @@
 using FluentMigrator.Runner;
+using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Dialect;
 using NHibernate.Driver;
@@ -30,7 +31,7 @@ rawConfig.DataBaseIntegration(db => {
 rawConfig.AddAssembly(Assembly.GetExecutingAssembly());
 var sessionFactory = rawConfig.BuildSessionFactory();
 builder.Services.AddSingleton(sessionFactory);
-builder.Services.AddSingleton(_ => sessionFactory.OpenSession());
+builder.Services.AddScoped(sp => sp.GetRequiredService<ISessionFactory>().OpenSession());
 
 // Add services to the container.
 builder.Services.AddScoped(sp => {
