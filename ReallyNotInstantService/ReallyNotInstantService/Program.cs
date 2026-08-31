@@ -3,6 +3,7 @@ using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Dialect;
 using NHibernate.Driver;
+using Npgsql;
 using ReallyNotInstantService.Data;
 using ReallyNotInstantService.Data.Migrations;
 using ReallyNotInstantService.Endpoints;
@@ -10,10 +11,9 @@ using System.Net.Http.Headers;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
-
 var rawConfig = new Configuration();
 var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
-Console.WriteLine(connectionString);
+var convertedConnectionString = ConvertPostgresUrlToNpgsqlConnectionString(connectionString ?? "");
 rawConfig.SetNamingStrategy(new PostgresNamingStrategy());
 
 builder.Services.AddFluentMigratorCore()
@@ -24,7 +24,7 @@ builder.Services.AddFluentMigratorCore()
     .AddLogging(lb => lb.AddFluentMigratorConsole());
 
 rawConfig.DataBaseIntegration(db => {
-    db.ConnectionString = connectionString;
+    db.ConnectionString = convertedConnectionString;
     db.Dialect<PostgreSQLDialect>();
     db.Driver<NpgsqlDriver>();
 });
@@ -71,3 +71,22 @@ app.MapMessageEndpoints();
 app.MapControllers();
 
 app.Run();
+
+string ConvertPostgresUrlToNpgsqlConnectionString(string url) {
+    if (url.StartsWith("Host=")) {
+        return url;
+    }
+
+    var uri = new Uri(url);
+    var userInfo = uri.UserInfo.Split(':');
+    var builder = new NpgsqlConnectionStringBuilder { 
+        Host = uri.Host,
+        Port = uri.Port > 0 ? uri.Port : 5432,
+        Username = userInfo[0],
+        Password = userInfo.Length > 1 ? userInfo[1] : "",
+        Database = uri.AbsolutePath.TrimStart('/'),
+        SslMode = SslMode.Require
+    };
+
+    return builder.ToString();
+}
