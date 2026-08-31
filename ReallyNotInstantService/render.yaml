@@ -22,5 +22,5 @@ projects:
       autoDeployTrigger: commit
       rootDir: ReallyNotInstantService
     databases:
-      name: really-not-instant-service-db
-      plan: free
+      - name: really-not-instant-service-db
+        plan: free
