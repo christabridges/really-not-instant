@@ -19,7 +19,7 @@ rawConfig.SetNamingStrategy(new PostgresNamingStrategy());
 builder.Services.AddFluentMigratorCore()
     .ConfigureRunner(rb => rb
         .AddPostgres()
-        .WithGlobalConnectionString(connectionString)
+        .WithGlobalConnectionString(convertedConnectionString)
         .ScanIn(typeof(AddMessagesTable).Assembly).For.Migrations())
     .AddLogging(lb => lb.AddFluentMigratorConsole());
 
