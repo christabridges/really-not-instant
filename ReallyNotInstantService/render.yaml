@@ -12,7 +12,7 @@ projects:
       envVars:
       - key: POSTGRES_CONNECTION_STRING
         fromDatabase:
-          name: reallynotinstantservice_db
+          name: really-not-instant-service-db
           property: connectionString
       - key: OPEN_ROUTE_SERVICE_KEY
         sync: false
@@ -22,5 +22,5 @@ projects:
       autoDeployTrigger: commit
       rootDir: ReallyNotInstantService
     databases:
-      name: reallynotinstantservice_db
+      name: really-not-instant-service-db
       plan: free
