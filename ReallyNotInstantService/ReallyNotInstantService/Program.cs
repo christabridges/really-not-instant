@@ -13,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var rawConfig = new Configuration();
 var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
+Console.WriteLine(connectionString);
 rawConfig.SetNamingStrategy(new PostgresNamingStrategy());
 
 builder.Services.AddFluentMigratorCore()

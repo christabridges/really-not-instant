@@ -10,7 +10,7 @@ projects:
       repo: https://github.com/cBridges851/really-not-instant
       plan: free
       envVars:
-      - key: POSTGRES_CONNECTION_STRING
+      - key: ConnectionStrings__DefaultConnection
         fromDatabase:
           name: reallynotinstantservice_db
           property: connectionString
