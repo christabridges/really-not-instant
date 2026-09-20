@@ -30,10 +30,10 @@ async function sendMessage(message, messageId) {
             return;
         }
     
-        addFailedMessageLink(messageStatusElement, messageId);
+        addFailedMessageButton(messageStatusElement, messageId);
     })
     .catch((error) => {
-        addFailedMessageLink(messageStatusElement, messageId);
+        addFailedMessageButton(messageStatusElement, messageId);
     })
 
 }
@@ -66,14 +66,13 @@ function displayMessageToSend(message, messageId) {
     conversationContainer.insertBefore(messageContainerElement, conversationContainer.firstChild);
 }
 
-function addFailedMessageLink(messageStatusElement, messageId) {
+function addFailedMessageButton(messageStatusElement, messageId) {
     messageStatusElement.innerText = "";
-    const messageFailedLink = document.createElement("a");
-    messageFailedLink.setAttribute("href", "javascript:;");
-    messageFailedLink.addEventListener("click", () => retrySendMessage(messageId));
-    messageFailedLink.innerText = "Failed, please try again";
-    messageFailedLink.setAttribute("class", "senderMessageFailedLink");
-    messageStatusElement.appendChild(messageFailedLink);
+    const messageFailedButton = document.createElement("button");
+    messageFailedButton.addEventListener("click", () => retrySendMessage(messageId));
+    messageFailedButton.innerText = "Failed, please try again";
+    messageFailedButton.setAttribute("class", "senderMessageFailedButton");
+    messageStatusElement.appendChild(messageFailedButton);
 }
 
 async function retrySendMessage(messageId) {
