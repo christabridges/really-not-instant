@@ -20,7 +20,7 @@ async function sendMessage(message, messageId) {
     }
 
     const messageElement = document.querySelector(`[data-hook='${messageId}']`);
-    const messageStatusElement = messageElement.children[1];
+    const messageStatusElement = messageElement.querySelector("[data-hook='message-status']");
     
     await fetch("http://localhost:8080/sendmessage", requestOptions)
     .then((response) => {
@@ -49,7 +49,9 @@ function displayMessageToSend(message, messageId) {
     const messageContainerElement = document.createElement("div")
     messageContainerElement.setAttribute("data-hook", messageId);
     const messageValueElement = document.createElement("p")
+    messageValueElement.setAttribute("data-hook", "message-value-element");
     const initialMessageStatusElement = document.createElement("p");
+    initialMessageStatusElement.setAttribute("data-hook", "message-status")
 
     messageContainerElement.setAttribute("class", "senderMessageElement");
     initialMessageStatusElement.setAttribute("class", "senderMessageStatus");
@@ -76,11 +78,10 @@ function addFailedMessageLink(messageStatusElement, messageId) {
 
 async function retrySendMessage(messageId) {
     const messageElement = document.querySelector(`[data-hook='${messageId}']`);
-    const messageValueElement = messageElement.children[0];
+    const messageValueElement = messageElement.querySelector("[data-hook='message-value-element']");
     const messageValue = messageValueElement.innerText;
 
-    const messageStatusElement = messageElement.children[1];
-    messageStatusElement.removeChild(event.target);
+    const messageStatusElement = messageElement.querySelector("[data-hook='message-status']")
     messageStatusElement.innerText = "Retrying...";
     messageStatusElement.setAttribute("class", "senderMessageStatus");
 
