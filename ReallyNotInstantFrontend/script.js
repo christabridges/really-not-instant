@@ -84,25 +84,5 @@ async function retrySendMessage(event, messageId) {
     messageStatusElement.innerText = "Retrying...";
     messageStatusElement.setAttribute("class", "senderMessageStatus");
 
-    const requestOptions = {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        mode: "cors",
-        body: JSON.stringify(messageValue)
-    }
-    
-    await fetch("http://localhost:8080/sendmessage", requestOptions)
-    .then((response) => {
-        if (response.status === 200) {
-            messageStatusElement.innerText = "Sent";
-            messageStatusElement.setAttribute("class", "senderMessageStatus");
-            return;
-        }
-    
-        addFailedMessageLink(messageStatusElement, messageId);
-    })
-    .catch((error) => {
-        addFailedMessageLink(messageStatusElement, messageId);
-    })
-
+    sendMessage(messageValue, messageId);
 }
