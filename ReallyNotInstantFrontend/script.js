@@ -22,8 +22,9 @@ async function sendMessage(message, messageId) {
     const messageElement = document.querySelector(`[data-hook='${messageId}']`);
     const messageStatusElement = messageElement.querySelector("[data-hook='message-status']");
     
-    await fetch("http://localhost:8080/sendmessage", requestOptions)
-    .then((response) => {
+    try {
+        const response = await fetch("http://localhost:8080/sendmessage", requestOptions)
+        
         if (response.ok) {
             messageStatusElement.innerText = "Sent";
             messageStatusElement.setAttribute("class", "senderMessageStatus");
@@ -31,11 +32,9 @@ async function sendMessage(message, messageId) {
         }
     
         addFailedMessageButton(messageStatusElement, messageId);
-    })
-    .catch((error) => {
+    } catch {
         addFailedMessageButton(messageStatusElement, messageId);
-    })
-
+    }
 }
 
 function createMessageId() {
