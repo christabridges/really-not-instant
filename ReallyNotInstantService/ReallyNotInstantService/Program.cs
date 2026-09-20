@@ -55,6 +55,15 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+var allowSpecificOriginsName = "allowSpecificOrigins";
+builder.Services.AddCors(options => {
+    options.AddPolicy(name: allowSpecificOriginsName,
+        policy => {
+            policy.WithOrigins("http://127.0.0.1:5500");
+            policy.WithMethods("PUT");
+            policy.WithHeaders("content-type");
+        });
+});
 
 var app = builder.Build();
 var migrator = app.Services.GetRequiredService<IMigrationRunner>();
@@ -65,10 +74,12 @@ if (app.Environment.IsDevelopment()) {
     app.MapOpenApi();
 }
 
+app.UseCors(allowSpecificOriginsName);
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapMessageEndpoints();
 app.MapControllers();
+
 
 app.Run();
 
