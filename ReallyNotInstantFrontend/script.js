@@ -24,7 +24,7 @@ async function sendMessage(message, messageId) {
     
     await fetch("http://localhost:8080/sendmessage", requestOptions)
     .then((response) => {
-        if (response.status === 200) {
+        if (response.ok) {
             messageStatusElement.innerText = "Sent";
             messageStatusElement.setAttribute("class", "senderMessageStatus");
             return;
