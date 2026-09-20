@@ -68,13 +68,13 @@ function addFailedMessageLink(messageStatusElement, messageId) {
     messageStatusElement.innerText = "";
     const messageFailedLink = document.createElement("a");
     messageFailedLink.setAttribute("href", "javascript:;");
-    messageFailedLink.setAttribute("onclick", `retrySendMessage(event, \"${messageId}\")`);
+    messageFailedLink.addEventListener("click", () => retrySendMessage(messageId));
     messageFailedLink.innerText = "Failed, please try again";
     messageFailedLink.setAttribute("class", "senderMessageFailedLink");
     messageStatusElement.appendChild(messageFailedLink);
 }
 
-async function retrySendMessage(event, messageId) {
+async function retrySendMessage(messageId) {
     const messageElement = document.querySelector(`[data-hook='${messageId}']`);
     const messageValueElement = messageElement.children[0];
     const messageValue = messageValueElement.innerText;
