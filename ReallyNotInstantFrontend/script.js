@@ -1,3 +1,5 @@
+import { API_URL } from "./config.js";
+
 const form = document.querySelector("form");
 let numericMessageId = 0;
 
@@ -23,7 +25,7 @@ async function sendMessage(message, messageId) {
     const messageStatusElement = messageElement.querySelector("[data-hook='message-status']");
     
     try {
-        const response = await fetch("http://localhost:8080/sendmessage", requestOptions)
+        const response = await fetch(`${API_URL}/sendmessage`, requestOptions)
         
         if (response.ok) {
             messageStatusElement.innerText = "Sent";
