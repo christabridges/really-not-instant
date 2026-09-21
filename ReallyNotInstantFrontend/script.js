@@ -60,7 +60,6 @@ function displayMessageToSend(message, messageId) {
 
     messageContainerElement.appendChild(messageValueElement);
     messageContainerElement.appendChild(initialMessageStatusElement);
-    conversationContainer.appendChild(messageContainerElement);
 
     conversationContainer.insertBefore(messageContainerElement, conversationContainer.firstChild);
 }
