@@ -68,7 +68,8 @@ function displayMessageToSend(message, messageId) {
 function addFailedMessageButton(messageStatusElement, messageId) {
     messageStatusElement.innerText = "";
     const messageFailedButton = document.createElement("button");
-    messageFailedButton.addEventListener("click", () => retrySendMessage(messageId));
+    messageFailedButton.setAttribute("type", "button");
+    messageFailedButton.addEventListener("click", () => retrySendMessage(messageId) );
     messageFailedButton.innerText = "Failed, please try again";
     messageFailedButton.setAttribute("class", "senderMessageFailedButton");
     messageStatusElement.appendChild(messageFailedButton);
