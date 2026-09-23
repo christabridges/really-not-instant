@@ -4,6 +4,7 @@ services:
     environment:
       - ConnectionStrings__DefaultConnection=${POSTGRES_CONNECTION_STRING}
       - OPEN_ROUTE_SERVICE_KEY=${OPEN_ROUTE_SERVICE_KEY}
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT} 
     build:
       context: .
       dockerfile: ReallyNotInstantService/Dockerfile

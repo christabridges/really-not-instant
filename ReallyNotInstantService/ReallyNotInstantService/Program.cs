@@ -49,25 +49,33 @@ builder.Services.AddScoped<IDistanceApiService>(sp =>
     new DistanceApiService(sp.GetRequiredService<HttpClient>())
 );
 builder.Services.AddScoped<IDeliveryTimeCalculator, DeliveryTimeCalculator>();
-builder.Services.AddSingleton(typeof(IPersistence<>), typeof(Persistence<>));
+builder.Services.AddScoped(typeof(IPersistence<>), typeof(Persistence<>));
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+var allowedOrigin = builder.Configuration["AllowedOrigin"];
+
+if (allowedOrigin == null) {
+    throw new InvalidOriginException("Allowed origin needs to be provided in the appsettings");
+}
+
 var allowSpecificOriginsName = "allowSpecificOrigins";
 builder.Services.AddCors(options => {
     options.AddPolicy(name: allowSpecificOriginsName,
         policy => {
-            policy.WithOrigins("http://127.0.0.1:5500");
+            policy.WithOrigins(allowedOrigin);
             policy.WithMethods("PUT");
             policy.WithHeaders("content-type");
         });
 });
 
 var app = builder.Build();
-var migrator = app.Services.GetRequiredService<IMigrationRunner>();
-migrator.MigrateUp();
+var serviceScope = app.Services.CreateScope();
+var services = serviceScope.ServiceProvider;
+var runner = services.GetRequiredService<IMigrationRunner>();
+runner.MigrateUp();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment()) {
