@@ -482,3 +482,4 @@ $RECYCLE.BIN/
 *.swp
 
 launchSettings.json
+appsettings.Development.json
