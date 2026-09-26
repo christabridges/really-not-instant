@@ -55,10 +55,10 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-var allowedOrigin = builder.Configuration["AllowedOrigin"];
+var allowedOrigin = builder.Configuration["ALLOWED_ORIGIN"];
 
 if (allowedOrigin == null) {
-    throw new InvalidOriginException("Allowed origin needs to be provided in the appsettings");
+    throw new InvalidOriginException("Allowed origin needs to be provided in the environment variables");
 }
 
 var allowSpecificOriginsName = "allowSpecificOrigins";

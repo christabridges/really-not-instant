@@ -16,6 +16,8 @@ projects:
           property: connectionString
       - key: OPEN_ROUTE_SERVICE_KEY
         sync: false
+      - key: ALLOWED_ORIGIN
+        sync: false
       region: frankfurt
       dockerContext: .
       dockerfilePath: ReallyNotInstantService/Dockerfile
