@@ -1,0 +1,59 @@
+body {
+    font-family: "Roboto", sans-serif;
+}
+
+input {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+input[type="submit"] {
+    cursor: pointer;
+}
+
+#messageBox {
+    width: 94%;
+    padding: 0.5rem;
+}
+
+#sendMessageButton {
+    width: 5%;
+    padding: 0.5rem;
+}
+
+#conversationContainer {
+    padding: 0.5rem;
+    border: solid #000000 1px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 400px;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    flex-wrap: nowrap;
+}
+
+#messageInput {
+    display: flex;
+}
+
+.senderMessageElement {
+    flex-shrink: 0;
+    border: solid #000000 1px;
+    padding-inline: 0.5em;
+}
+
+.senderMessageStatus {
+    font-size: 0.7em;
+}
+
+.senderMessageFailedButton {
+    color: #FF0000;
+    background-color: #FFFFFF;
+    border: none;
+    text-decoration: underline;
+    padding: 0;
+}
