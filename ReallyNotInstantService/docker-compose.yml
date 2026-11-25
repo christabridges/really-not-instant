@@ -31,6 +31,8 @@ services:
       timeout: 5s
       retries: 5
 
+  # At the moment, this is only used for local dev with no sensitive information, not in the prod environment, 
+  # hence why the user is not required to login.
   pgadmin:
     image: dpage/pgadmin4:latest
     ports:
